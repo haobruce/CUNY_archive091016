@@ -2,7 +2,7 @@
 title: "Movies"
 author: "Bruce Hao"
 date: "September 3, 2016"
-output: html_document
+output: github_document
 ---
 
 Load necessary libraries.
