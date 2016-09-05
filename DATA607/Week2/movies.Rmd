@@ -14,7 +14,13 @@ library(ggvis)
 
 Establish database connection.
 ```{r include=FALSE}
-myDb = dbConnect(MySQL(), user='cunyUser', password='cunyPassword', dbname='movies', host='127.0.0.1')
+username = 'brucehao'
+password = 'password'
+```
+
+```{r}
+host = 'mysql-instance.ch6yubfph0cs.us-west-1.rds.amazonaws.com'
+myDb = dbConnect(MySQL(), user=username, password=password, dbname='movies', host=host)
 ```
 
 Query movie_names and movie_ratings tables.
@@ -28,7 +34,9 @@ movies = fetch(rs, n=-1)
 The following outputs show 1) the frequency of each rating value (1-5) by movie and 2) the average rating for each movie:
 ```{r out.width='900px', message=FALSE}
 table(movies$movie_name, movies$rating)
-pvt = summarise(group_by(movies, movie_name), avg_rating = mean(rating))
+pvt = movies %>%
+        group_by(movie_name) %>%
+        summarise(avg_rating = mean(rating)) 
 pvt
 pvt %>% ggvis(~movie_name, ~avg_rating) %>% layer_bars(width = 0.7)
 ```

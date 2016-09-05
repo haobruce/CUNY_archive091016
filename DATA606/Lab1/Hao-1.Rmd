@@ -8,6 +8,8 @@ output: html_document
 Setup lab.
 ```{r results='hide', message=FALSE}
 library(IS606)
+library(dplyr)
+library(ggvis)
 source("more/cdc.R")
 ```
 
@@ -36,14 +38,20 @@ Summary and relative frequency distribution for height:
 ```{r}
 summary(cdc$height)
 prop.table(table(cdc$height))
-barplot(prop.table(table(cdc$height)))
+#barplot(prop.table(table(cdc$height)))
+
+height_freq = cdc %>% group_by(height) %>% summarise(n=n()) %>% mutate(height_freq=n/sum(n))
+height_freq %>% ggvis(~height, ~height_freq) %>% layer_bars()
 ```
 
 Summary relative frequency distribution for age:
 ```{r}
 summary(cdc$age)
 prop.table(table(cdc$age))
-barplot(prop.table(table(cdc$age)))
+#barplot(prop.table(table(cdc$age)))
+
+age_freq = cdc %>% group_by(age) %>% summarise(n=n()) %>% mutate(age_freq=n/sum(n))
+age_freq %>% ggvis(~age, ~age_freq) %>% layer_bars()
 ```
 
 ```{r}

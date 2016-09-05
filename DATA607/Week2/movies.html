@@ -136,6 +136,8 @@ $(document).ready(function () {
 library(dplyr)
 library(ggvis)</code></pre>
 <p>Establish database connection.</p>
+<pre class="r"><code>host = 'mysql-instance.ch6yubfph0cs.us-west-1.rds.amazonaws.com'
+myDb = dbConnect(MySQL(), user=username, password=password, dbname='movies', host=host)</code></pre>
 <p>Query movie_names and movie_ratings tables.</p>
 <pre class="r"><code>rs = dbSendQuery(myDb, 'SELECT DISTINCT names.*, ratings.user_id, ratings.rating 
                  FROM movie_names names INNER JOIN movie_ratings ratings
@@ -151,7 +153,9 @@ movies = fetch(rs, n=-1)</code></pre>
 ##   Star Wars: The Force Awakens 1 1 2 1 0
 ##   The Revenant                 1 1 1 1 1
 ##   Zootopia                     2 0 1 0 2</code></pre>
-<pre class="r"><code>pvt = summarise(group_by(movies, movie_name), avg_rating = mean(rating))
+<pre class="r"><code>pvt = movies %&gt;%
+        group_by(movie_name) %&gt;%
+        summarise(avg_rating = mean(rating)) 
 pvt</code></pre>
 <pre><code>## # A tibble: 6 × 2
 ##                     movie_name avg_rating
@@ -163,27 +167,27 @@ pvt</code></pre>
 ## 5                 The Revenant        3.0
 ## 6                     Zootopia        3.0</code></pre>
 <pre class="r"><code>pvt %&gt;% ggvis(~movie_name, ~avg_rating) %&gt;% layer_bars(width = 0.7)</code></pre>
-<div id="plot_id578298864-container" class="ggvis-output-container">
-<div id="plot_id578298864" class="ggvis-output"></div>
+<div id="plot_id852299905-container" class="ggvis-output-container">
+<div id="plot_id852299905" class="ggvis-output"></div>
 <div class="plot-gear-icon">
 <nav class="ggvis-control">
 <a class="ggvis-dropdown-toggle" title="Controls" onclick="return false;"></a>
 <ul class="ggvis-dropdown">
 <li>
 Renderer: 
-<a id="plot_id578298864_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id578298864" data-renderer="svg">SVG</a>
+<a id="plot_id852299905_renderer_svg" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id852299905" data-renderer="svg">SVG</a>
  | 
-<a id="plot_id578298864_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id578298864" data-renderer="canvas">Canvas</a>
+<a id="plot_id852299905_renderer_canvas" class="ggvis-renderer-button" onclick="return false;" data-plot-id="plot_id852299905" data-renderer="canvas">Canvas</a>
 </li>
 <li>
-<a id="plot_id578298864_download" class="ggvis-download" data-plot-id="plot_id578298864">Download</a>
+<a id="plot_id852299905_download" class="ggvis-download" data-plot-id="plot_id852299905">Download</a>
 </li>
 </ul>
 </nav>
 </div>
 </div>
 <script type="text/javascript">
-var plot_id578298864_spec = {
+var plot_id852299905_spec = {
   "data": [
     {
       "name": ".0/count1/stack2",
@@ -311,7 +315,7 @@ var plot_id578298864_spec = {
   },
   "handlers": null
 };
-ggvis.getPlot("plot_id578298864").parseSpec(plot_id578298864_spec);
+ggvis.getPlot("plot_id852299905").parseSpec(plot_id852299905_spec);
 </script>
 
 

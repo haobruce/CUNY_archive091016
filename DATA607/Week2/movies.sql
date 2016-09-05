@@ -1,4 +1,4 @@
--- CREATE DATABASE movies;
+CREATE DATABASE IF NOT EXISTS movies;
 
 DROP TABLE IF EXISTS movie_names;
 
