@@ -13,6 +13,10 @@ library(ggvis)
 
 Establish database connection.
 
+``` r
+myDb = dbConnect(MySQL(), user=username, password=password, dbname='movies', host=host)
+```
+
 Query movie\_names and movie\_ratings tables.
 
 ``` r
@@ -38,7 +42,9 @@ table(movies$movie_name, movies$rating)
     ##   Zootopia                     2 0 1 0 2
 
 ``` r
-pvt = summarise(group_by(movies, movie_name), avg_rating = mean(rating))
+pvt = movies %>%
+        group_by(movie_name) %>%
+        summarise(avg_rating = mean(rating)) 
 pvt
 ```
 
