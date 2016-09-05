@@ -16,10 +16,10 @@ Establish database connection.
 ```{r include=FALSE}
 username = 'brucehao'
 password = 'password'
+host = 'mysql-instance.ch6yubfph0cs.us-west-1.rds.amazonaws.com'
 ```
 
 ```{r}
-host = 'mysql-instance.ch6yubfph0cs.us-west-1.rds.amazonaws.com'
 myDb = dbConnect(MySQL(), user=username, password=password, dbname='movies', host=host)
 ```
 
